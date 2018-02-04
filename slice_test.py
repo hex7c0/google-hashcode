@@ -18,9 +18,11 @@ class SliceTestCase(unittest.TestCase):
     def test_slice_key(self):
         self.slice += self.cell1
         self.assertEqual(0, self.slice[self.cell1.id], 'list index of id 1')
+        self.assertEqual(1, len(self.slice.cells))
 
         self.slice += self.cell0
         self.assertEqual(1, self.slice[self.cell0.id], 'list index of id 0')
+        self.assertEqual(2, len(self.slice.cells))
 
         with self.assertRaises(KeyError):
             if self.slice['foobar']:

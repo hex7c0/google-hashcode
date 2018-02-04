@@ -51,7 +51,7 @@ class PizzaTestCase(unittest.TestCase):
         cell = pizza_cell.cell
         self.assertEqual(0, cell.x)
         self.assertEqual(0, cell.y)
-        self.assertEqual('x0y0', cell.id)
+        self.assertEqual(0, cell.id)
         self.assertFalse(cell.is_equal)
 
         pizza_cell = self.pizza.cells[0][1]
@@ -62,7 +62,7 @@ class PizzaTestCase(unittest.TestCase):
         cell = pizza_cell.cell
         self.assertEqual(1, cell.x)
         self.assertEqual(0, cell.y)
-        self.assertEqual('x1y0', cell.id)
+        self.assertEqual(10, cell.id)
         self.assertFalse(cell.is_equal)
 
     @unittest.skip('debug only')
