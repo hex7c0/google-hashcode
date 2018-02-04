@@ -1,0 +1,46 @@
+import unittest
+
+from cell import Cell
+from cell_test import X0, X1, Y0, Y1
+from slice import Slice
+
+
+class SliceTestCase(unittest.TestCase):
+    cell0 = None
+    cell1 = None
+    slice = None
+
+    def setUp(self):
+        self.cell0 = Cell(X0, Y0)
+        self.cell1 = Cell(X1, Y1)
+        self.slice = Slice()
+
+    def test_slice_key(self):
+        self.slice += self.cell1
+        self.assertEqual(0, self.slice[self.cell1.id], 'list index of id 1')
+
+        self.slice += self.cell0
+        self.assertEqual(1, self.slice[self.cell0.id], 'list index of id 0')
+
+        with self.assertRaises(KeyError):
+            if self.slice['foobar']:
+                pass
+
+        with self.assertRaises(KeyError):
+            self.slice += self.cell0
+
+    def test_slice_id(self):
+        self.slice = Slice()
+        self.assertEqual(self.slice.id, hash(self.slice))
+        self.assertEqual(0, self.slice.id, 'no element')
+
+        self.slice += self.cell1
+        self.assertEqual(self.cell1.id, self.slice.id, 'first element')
+        self.assertEqual(11, self.slice.id, 'first element')
+
+        self.slice += self.cell0
+        self.assertEqual(11, self.slice.id, 'same because first element')
+
+
+if __name__ == '__main__':
+    unittest.main()
