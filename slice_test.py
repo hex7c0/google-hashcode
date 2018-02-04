@@ -30,7 +30,6 @@ class SliceTestCase(unittest.TestCase):
             self.slice += self.cell0
 
     def test_slice_id(self):
-        self.slice = Slice()
         self.assertEqual(self.slice.id, hash(self.slice))
         self.assertEqual(0, self.slice.id, 'no element')
 

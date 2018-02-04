@@ -28,6 +28,7 @@ class Cell(object):
 
         self.x = x
         self.y = y
+        self._is_equal = False
 
     def __hash__(self) -> int:
         """Return id of this cell.

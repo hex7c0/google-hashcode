@@ -23,6 +23,13 @@ class Slice(object):
 
     __index = 0
 
+    def __init__(self):
+        """Slice constructor."""
+
+        self._cells = []
+        self._indices = {}
+        self.__index = 0
+
     def __add__(self, cell: Cell):
         """Add a cell into list of cells.
 
