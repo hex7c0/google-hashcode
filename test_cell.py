@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Cell test."""
+
 import unittest
 
 from cell import Cell
@@ -12,6 +15,13 @@ class CellTestCase(unittest.TestCase):
     cell = None
 
     def setUp(self):
+        """setUp test.
+
+        :return:
+        """
+
+        super(CellTestCase, self).setUp()
+
         self.cell = Cell(X0, Y0)
 
     def test_cell_key(self):

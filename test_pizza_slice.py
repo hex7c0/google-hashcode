@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
+"""PizzaSlice test."""
+
 import unittest
 
 from cell import Cell
-from cell_test import X0, X1, Y0, Y1
 from pizza_slice import PizzaSlice
 from slice import Slice
+from test_cell import X0, X1, Y0, Y1
 
 
 class PizzaSliceTestCase(unittest.TestCase):
@@ -13,6 +16,13 @@ class PizzaSliceTestCase(unittest.TestCase):
     slice1 = None
 
     def setUp(self):
+        """setUp test.
+
+        :return:
+        """
+
+        super(PizzaSliceTestCase, self).setUp()
+
         self.cell0 = Cell(X0, Y0)
         self.cell1 = Cell(X1, Y1)
         self.slice0 = Slice()

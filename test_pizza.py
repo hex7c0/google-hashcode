@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Pizza test."""
+
 import unittest
 from os import unlink
 
@@ -16,6 +19,13 @@ class PizzaTestCase(unittest.TestCase):
     pizza = None
 
     def setUp(self):
+        """setUp test.
+
+        :return:
+        """
+
+        super(PizzaTestCase, self).setUp()
+        
         try:
             unlink(input_file)
         except FileNotFoundError:
@@ -27,10 +37,17 @@ class PizzaTestCase(unittest.TestCase):
         self.pizza = read_input(input_file)
 
     def tearDown(self):
+        """tearDown test.
+
+        :return:
+        """
+
         try:
             unlink(input_file)
         except FileNotFoundError:
             pass
+
+        super(PizzaTestCase, self).tearDown()
 
     def test_pizza_cons(self):
         self.assertIsNotNone(self.pizza)
