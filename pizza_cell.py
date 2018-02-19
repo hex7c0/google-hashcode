@@ -9,6 +9,8 @@ from slice import Slice
 
 @unique
 class Ingredient(Enum):
+    """Ingredient enum."""
+    
     MUSHROOM = 'M'
     TOMATO = 'T'
 
