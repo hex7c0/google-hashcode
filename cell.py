@@ -7,15 +7,17 @@ __all__ = ('Cell',)
 class Cell(object):
     """Cell is a point in a map.
 
-    :type x: int
-    :type y: int
+    :type _x: int
+    :type _y: int
     :type _is_equal: bool
+    :type __id: int
     """
 
-    x = 0
-    y = 0
-
+    _x = 0
+    _y = 0
     _is_equal = False
+
+    __id = 0
 
     def __init__(self, x: int, y: int):
         """Cell constructor.
@@ -26,8 +28,9 @@ class Cell(object):
         :type y: int
         """
 
-        self.x = x
-        self.y = y
+        self._x = x
+        self._y = y
+        self.__hash__()
         self._is_equal = False
 
     def __hash__(self) -> int:
@@ -40,14 +43,50 @@ class Cell(object):
         return self.x * 10 + self.y
 
     @property
-    def id(self) -> int:
-        """Return id of this cell.
+    def x(self) -> int:
+        """Return X of this cell.
 
-        :return: id
+        :return: x
         :rtype: int
         """
 
-        return self.__hash__()
+        return self._x
+
+    @x.setter
+    def x(self, value: int) -> None:
+        """X setter.
+
+        :param value: value
+        :type value: int
+        :return:
+        :rtype: None
+        """
+
+        self._x = value
+        self.__hash__()
+
+    @property
+    def y(self) -> int:
+        """Return Y of this cell.
+
+        :return: y
+        :rtype: int
+        """
+
+        return self._y
+
+    @x.setter
+    def x(self, value: int) -> None:
+        """Y setter.
+
+        :param value: value
+        :type value: int
+        :return:
+        :rtype: None
+        """
+
+        self._y = value
+        self.__hash__()
 
     @property
     def is_equal(self) -> bool:
@@ -60,13 +99,23 @@ class Cell(object):
         return self._is_equal
 
     @is_equal.setter
-    def is_equal(self, equal: bool) -> None:
+    def is_equal(self, value: bool) -> None:
         """IsEqual setter.
 
-        :param equal: is_equal
-        :type equal: bool
+        :param value: is_equal
+        :type value: bool
         :return:
         :rtype: None
         """
 
-        self._is_equal = equal
+        self._is_equal = value
+
+    @property
+    def id(self) -> int:
+        """Return id of this cell.
+
+        :return: id
+        :rtype: int
+        """
+
+        return self.__id
