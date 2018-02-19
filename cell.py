@@ -30,8 +30,17 @@ class Cell(object):
 
         self._x = x
         self._y = y
-        self.__hash__()
         self._is_equal = False
+        self.__generate_id()
+
+    def __generate_id(self) -> None:
+        """Generate if of this cell.
+
+        :return:
+        :rtype: None
+        """
+
+        self.__id = self.x * 10 + self.y + 1
 
     def __hash__(self) -> int:
         """Return id of this cell.
@@ -40,7 +49,7 @@ class Cell(object):
         :rtype: int
         """
 
-        return self.x * 10 + self.y
+        return self.__id
 
     @property
     def x(self) -> int:
