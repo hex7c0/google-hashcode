@@ -15,7 +15,7 @@ class Ingredient(Enum):
     TOMATO = 'T'
 
 
-class PizzaCell:
+class PizzaCell(object):
     """Cell of Pizza.
 
     :type ingredient: Ingredient or None
@@ -49,12 +49,19 @@ class PizzaCell:
         :type ingredient: str
         """
 
-        if Ingredient.MUSHROOM.value == ingredient.upper():
+        try:
+            ingredient = ingredient.upper()
+        except AttributeError:
+            raise ValueError
+
+        if Ingredient.MUSHROOM.value == ingredient:
             self.ingredient = Ingredient.MUSHROOM
             self._has_mushroom = True
-        else:
+        elif Ingredient.TOMATO.value == ingredient:
             self.ingredient = Ingredient.TOMATO
-        self._has_tomato = not self._has_mushroom
+            self._has_tomato = True
+        else:
+            raise ValueError
 
     @property
     def cell(self) -> Cell:
