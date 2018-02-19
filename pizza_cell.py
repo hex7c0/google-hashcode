@@ -26,7 +26,6 @@ class PizzaCell(object):
     :type _cell: Cell or None
     :type _slice: Slice or None
     :type _has_mushroom: bool
-    :type _has_tomato: bool
     """
 
     ingredient = None
@@ -40,7 +39,6 @@ class PizzaCell(object):
     _cell = None
 
     _has_mushroom = False
-    _has_tomato = False
 
     def __init__(self, ingredient: str):
         """PizzaCell constructor.
@@ -54,12 +52,11 @@ class PizzaCell(object):
         except AttributeError:
             raise ValueError
 
-        if Ingredient.MUSHROOM.value == ingredient:
+        if ingredient == Ingredient.MUSHROOM.value:
             self.ingredient = Ingredient.MUSHROOM
             self._has_mushroom = True
-        elif Ingredient.TOMATO.value == ingredient:
+        elif ingredient == Ingredient.TOMATO.value:
             self.ingredient = Ingredient.TOMATO
-            self._has_tomato = True
         else:
             raise ValueError
 
@@ -125,7 +122,7 @@ class PizzaCell(object):
         :rtype: bool
         """
 
-        return self._has_tomato
+        return not self._has_mushroom
 
     def neighbour(self, direction: str, next_pizza_cell) -> None:
         """Look at next cell.
