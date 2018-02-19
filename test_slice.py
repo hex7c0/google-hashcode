@@ -47,10 +47,10 @@ class SliceTestCase(unittest.TestCase):
 
         self.slice += self.cell1
         self.assertEqual(self.cell1.id, self.slice.id, 'first element')
-        self.assertEqual(11, self.slice.id, 'first element')
+        self.assertEqual(12, self.slice.id, 'first element')
 
         self.slice += self.cell0
-        self.assertEqual(11, self.slice.id, 'same because first element')
+        self.assertEqual(13, self.slice.id)
 
 
 if __name__ == '__main__':

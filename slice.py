@@ -16,12 +16,14 @@ class Slice(object):
     :type _cells: Cells
     :type _indices: dict
     :type __index: int
+    :type __id: int
     """
 
     _cells = []
     _indices = {}
 
     __index = 0
+    __id = 0
 
     def __init__(self):
         """Slice constructor."""
@@ -29,24 +31,55 @@ class Slice(object):
         self._cells = []
         self._indices = {}
         self.__index = 0
+        self.__generate_id()
+
+    def __generate_id(self, cell: Cell = None) -> None:
+        """Generate if of this slice.
+
+        :param cell:
+        :type cell: Cell
+        :return:
+        :rtype: None
+        """
+
+        default = 0
+
+        if self.__index is default:
+            self.__id = default
+
+        if cell is not None:
+            self.__id += cell.id
+
+    def __len__(self) -> int:
+        """Return length of this slice.
+
+        :return:
+        :rtype: int
+        """
+
+        return self.__index
 
     def __add__(self, cell: Cell):
         """Add a cell into list of cells.
 
         :param cell: single cell
         :type cell: Cell
-        :return:
-        :rtype: None
+        :return: this slice
+        :rtype: Slice
         """
 
-        # duplicated cell
-        if cell.id in self._indices:
+        try:  # easier to ask for forgiveness than permission
+            self._indices[cell.id]
+        except KeyError:
+            pass
+        else:  # duplicated cell
             raise KeyError
 
         self._cells.append(cell)
         self._indices[cell.id] = self.__index
 
         self.__index += 1
+        self.__generate_id(cell)
 
         return self
 
@@ -70,17 +103,9 @@ class Slice(object):
 
         key = 0
 
-        return key if key is self.__index else self._cells[key].id
+        self.__id = key if key is self.__index else self._cells[key].id
 
-    @property
-    def id(self) -> int:
-        """Return id of this slice.
-
-        :return: id
-        :rtype: int
-        """
-
-        return self.__hash__()
+        return self.__id
 
     @property
     def cells(self) -> Cells:
@@ -91,3 +116,13 @@ class Slice(object):
         """
 
         return self._cells
+
+    @property
+    def id(self) -> int:
+        """Return id of this slice.
+
+        :return: id
+        :rtype: int
+        """
+
+        return self.__id

@@ -30,7 +30,7 @@ class CellTestCase(unittest.TestCase):
 
     def test_cell_id(self):
         self.assertEqual(self.cell.id, hash(self.cell))
-        self.assertEqual(0, self.cell.id)
+        self.assertEqual(1, self.cell.id)
 
     def test_cell_equal(self):
         self.assertFalse(self.cell.is_equal)
