@@ -13,11 +13,18 @@ Cells = List[Cell]
 class Slice(object):
     """Slice is an aggregate of Cell.
 
+    :type mushroom_number: int
+    :type tomato_number: int
+    :type cells_number: int
     :type _cells: Cells
     :type _indices: dict
     :type __index: int
     :type __id: int
     """
+
+    mushroom_number = 0
+    tomato_number = 0
+    cells_number = 0
 
     _cells = []
     _indices = {}
@@ -25,30 +32,21 @@ class Slice(object):
     __index = 0
     __id = 0
 
-    def __init__(self):
-        """Slice constructor."""
+    def __init__(self, cell=None):
+        """Slice constructor.
 
+        :param cell: add this cell into new slice
+        :type cell: PizzaCell
+        """
+
+        self.mushroom_number = 0
+        self.tomato_number = 0
+        self.cells_number = 0
         self._cells = []
         self._indices = {}
         self.__index = 0
-        self.__generate_id()
-
-    def __generate_id(self, cell: Cell = None) -> None:
-        """Generate if of this slice.
-
-        :param cell:
-        :type cell: Cell
-        :return:
-        :rtype: None
-        """
-
-        default = 0
-
-        if self.__index is default:
-            self.__id = default
-
         if cell is not None:
-            self.__id += cell.id
+            self.__add__(cell)
 
     def __len__(self) -> int:
         """Return length of this slice.
@@ -59,11 +57,11 @@ class Slice(object):
 
         return self.__index
 
-    def __add__(self, cell: Cell):
+    def __add__(self, cell):
         """Add a cell into list of cells.
 
         :param cell: single cell
-        :type cell: Cell
+        :type cell: PizzaCell
         :return: this slice
         :rtype: Slice
         """
@@ -75,11 +73,17 @@ class Slice(object):
         else:  # duplicated cell
             raise KeyError
 
-        self._cells.append(cell)
+        self._cells.append(cell.cell)
         self._indices[cell.id] = self.__index
 
+        cell.slice = self
+        if cell.mushroom:
+            self.mushroom_number += 1
+        elif cell.tomato:
+            self.tomato_number += 1
+
         self.__index += 1
-        self.__generate_id(cell)
+        self.__generate_id()
 
         return self
 
@@ -101,10 +105,6 @@ class Slice(object):
         :rtype: int
         """
 
-        key = 0
-
-        self.__id = key if key is self.__index else self._cells[key].id
-
         return self.__id
 
     @property
@@ -118,6 +118,16 @@ class Slice(object):
         return self._cells
 
     @property
+    def ingredient_number(self) -> int:
+        """Get ingredients number.
+
+        :return: number of ingredients
+        :rtype: int
+        """
+
+        return self.mushroom_number + self.tomato_number
+
+    @property
     def id(self) -> int:
         """Return id of this slice.
 
@@ -126,3 +136,15 @@ class Slice(object):
         """
 
         return self.__id
+
+    def __generate_id(self) -> None:
+        """Generate if of this slice (1° Cell).
+
+        :return:
+        :rtype: None
+        """
+
+        default = 0
+
+        if self.__index > default:
+            self.__id = self._cells[default].id

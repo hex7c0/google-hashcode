@@ -4,6 +4,7 @@
 import unittest
 
 from cell import Cell
+from pizza_cell import Ingredient, PizzaCell
 from slice import Slice
 from test_cell import X0, X1, Y0, Y1
 
@@ -26,11 +27,15 @@ class SliceTestCase(unittest.TestCase):
         self.slice = Slice()
 
     def test_slice_key(self):
-        self.slice += self.cell1
+        pizza_cell = PizzaCell(Ingredient.TOMATO.value)
+
+        pizza_cell.cell = self.cell1
+        self.slice += pizza_cell
         self.assertEqual(0, self.slice[self.cell1.id], 'list index of id 1')
         self.assertEqual(1, len(self.slice.cells))
 
-        self.slice += self.cell0
+        pizza_cell.cell = self.cell0
+        self.slice += pizza_cell
         self.assertEqual(1, self.slice[self.cell0.id], 'list index of id 0')
         self.assertEqual(2, len(self.slice.cells))
 
@@ -45,12 +50,16 @@ class SliceTestCase(unittest.TestCase):
         self.assertEqual(self.slice.id, hash(self.slice))
         self.assertEqual(0, self.slice.id, 'no element')
 
-        self.slice += self.cell1
+        pizza_cell = PizzaCell(Ingredient.TOMATO.value)
+
+        pizza_cell.cell = self.cell1
+        self.slice += pizza_cell
         self.assertEqual(self.cell1.id, self.slice.id, 'first element')
         self.assertEqual(12, self.slice.id, 'first element')
 
-        self.slice += self.cell0
-        self.assertEqual(13, self.slice.id)
+        pizza_cell.cell = self.cell0
+        self.slice += pizza_cell
+        self.assertEqual(12, self.slice.id, 'first')
 
 
 if __name__ == '__main__':
