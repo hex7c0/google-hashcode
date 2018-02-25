@@ -4,6 +4,7 @@
 from typing import List
 
 from pizza_cell import PizzaCell
+from pizza_slice import PizzaSlice
 
 PizzaCells = List[List[PizzaCell]]
 
@@ -17,8 +18,9 @@ class Pizza:
     :type maximum_cells_number: int
     :type number_of_mushrooms: int
     :type number_of_tomatoes: int
-    :type _latest_slice: int
     :type _cells: List[List[PizzaCell]]
+    :type _slices: PizzaSlice
+    :type _latest_slice: Slice
     """
 
     rows = 0
@@ -29,6 +31,8 @@ class Pizza:
     number_of_tomatoes = 0
 
     _cells = [[]]
+    _slices = None
+    _latest_slice = None
 
     def __init__(self, cells: PizzaCells):
         """Compile a pizza with _cells.
@@ -38,6 +42,7 @@ class Pizza:
         """
 
         self._cells = cells
+        self._slices = PizzaSlice()
 
     @property
     def cells(self) -> PizzaCells:
@@ -72,43 +77,53 @@ class Pizza:
 
                 if row != 0:
                     top_pizza_cell = self._cells[row - 1][column]
-                    pizza_cell.neighbour('top', top_pizza_cell)
+                    pizza_cell.set_neighbour('top', top_pizza_cell)
 
                 if column != 0:
                     left_pizza_cell = self._cells[row][column - 1]
-                    pizza_cell.neighbour('left', left_pizza_cell)
+                    pizza_cell.set_neighbour('left', left_pizza_cell)
 
                 try:
                     bottom_pizza_cell = self._cells[row + 1][column]
-                    pizza_cell.neighbour('bottom', bottom_pizza_cell)
+                    pizza_cell.set_neighbour('bottom', bottom_pizza_cell)
                 except IndexError:
                     pass
 
                 try:
                     right_pizza_cell = self._cells[row][column + 1]
-                    pizza_cell.neighbour('right', right_pizza_cell)
+                    pizza_cell.set_neighbour('right', right_pizza_cell)
                 except IndexError:
                     pass
 
-    def reduce(self, row, column) -> None:
+    def reduce(self) -> None:
         """Map pizza to big cells.
 
-        :param row:
-        :param column:
-        :type row: int
-        :type column: int
         :return:
+        :rtype: None
         """
 
-        start = self._cells[row][column]
+        # start = self._cells[row][column]
 
         for row in range(self.rows):
             for column in range(self.columns):
                 cell = self._cells[row][column]
-                if cell._slice is not None:
+                slice = self._latest_slice
+
+                # first or latest iteraction
+                if slice is None or \
+                        slice.cells_number > self.maximum_cells_number:
+                    self._latest_slice = self._slices.get_new_slice(cell)
+
+                slice = self._latest_slice
+
+                # already assigned
+                if cell.slice is not None:
                     continue
 
-                cell.used = self._latest_slice
+                if cell.bottom is not None and cell.bottom.slice is not None:
+                    slice += cell
+
+                # cell.used = self._latest_slice
 
     def print(self) -> None:
         """Print pizza as input.

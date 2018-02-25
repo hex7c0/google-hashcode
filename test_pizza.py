@@ -69,7 +69,6 @@ class PizzaTestCase(unittest.TestCase):
         self.assertEqual(0, cell.x)
         self.assertEqual(0, cell.y)
         self.assertEqual(1, cell.id)
-        self.assertFalse(cell.is_equal)
 
         pizza_cell = self.pizza.cells[0][1]
         self.assertFalse(pizza_cell.mushroom)
@@ -80,7 +79,6 @@ class PizzaTestCase(unittest.TestCase):
         self.assertEqual(1, cell.x)
         self.assertEqual(0, cell.y)
         self.assertEqual(11, cell.id)
-        self.assertFalse(cell.is_equal)
 
     @unittest.skip('debug only')
     def test_pizza_print(self):
@@ -102,10 +100,8 @@ class PizzaTestCase(unittest.TestCase):
 
         # bottom-left
         pizza_cell = self.pizza.cells[2][0]
-        self.assertTrue(pizza_cell.top.is_equal)
         self.assertIsNone(pizza_cell.left)
         self.assertIsNone(pizza_cell.bottom)
-        self.assertTrue(pizza_cell.right.is_equal)
         self.assertEqual(0, pizza_cell.top.x)
         self.assertEqual(1, pizza_cell.top.y)
         self.assertEqual(1, pizza_cell.right.x)
@@ -113,10 +109,6 @@ class PizzaTestCase(unittest.TestCase):
 
         # first-mushroom
         pizza_cell = self.pizza.cells[1][1]
-        self.assertFalse(pizza_cell.top.is_equal)
-        self.assertFalse(pizza_cell.left.is_equal)
-        self.assertFalse(pizza_cell.bottom.is_equal)
-        self.assertTrue(pizza_cell.right.is_equal)
 
 
 if __name__ == '__main__':
