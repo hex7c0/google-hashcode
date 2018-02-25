@@ -9,13 +9,11 @@ class Cell(object):
 
     :type _x: int
     :type _y: int
-    :type _is_equal: bool
     :type __id: int
     """
 
     _x = 0
     _y = 0
-    _is_equal = False
 
     __id = 0
 
@@ -30,17 +28,7 @@ class Cell(object):
 
         self._x = x
         self._y = y
-        self._is_equal = False
         self.__generate_id()
-
-    def __generate_id(self) -> None:
-        """Generate if of this cell.
-
-        :return:
-        :rtype: None
-        """
-
-        self.__id = self.x * 10 + self.y + 1
 
     def __hash__(self) -> int:
         """Return id of this cell.
@@ -98,28 +86,6 @@ class Cell(object):
         self.__hash__()
 
     @property
-    def is_equal(self) -> bool:
-        """IsEqual getter.
-
-        :return: bool
-        :rtype: bool
-        """
-
-        return self._is_equal
-
-    @is_equal.setter
-    def is_equal(self, value: bool) -> None:
-        """IsEqual setter.
-
-        :param value: is_equal
-        :type value: bool
-        :return:
-        :rtype: None
-        """
-
-        self._is_equal = value
-
-    @property
     def id(self) -> int:
         """Return id of this cell.
 
@@ -128,3 +94,12 @@ class Cell(object):
         """
 
         return self.__id
+
+    def __generate_id(self) -> None:
+        """Generate if of this cell.
+
+        :return:
+        :rtype: None
+        """
+
+        self.__id = self.x * 10 + self.y + 1

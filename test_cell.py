@@ -32,15 +32,6 @@ class CellTestCase(unittest.TestCase):
         self.assertEqual(self.cell.id, hash(self.cell))
         self.assertEqual(1, self.cell.id)
 
-    def test_cell_equal(self):
-        self.assertFalse(self.cell.is_equal)
-
-        self.cell.is_equal = True
-        self.assertTrue(self.cell.is_equal)
-
-        self.cell.is_equal = 'foobar'
-        self.assertTrue(self.cell.is_equal)
-
 
 if __name__ == '__main__':
     unittest.main()
