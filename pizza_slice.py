@@ -3,6 +3,7 @@
 
 from typing import List
 
+from pizza_cell import PizzaCell
 from slice import Slice
 
 __all__ = ('PizzaSlice',)
@@ -13,7 +14,7 @@ Slices = List[Slice]
 class PizzaSlice(object):
     """PizzaSlice is an aggregate of Slice.
 
-    :type _slices: Cells
+    :type _slices: Slices
     :type _indices: dict
     :type __index: int
     """
@@ -39,8 +40,11 @@ class PizzaSlice(object):
         :rtype: None
         """
 
-        # duplicated slice
-        if slice.id in self._indices:
+        try:  # easier to ask for forgiveness than permission
+            self._indices[slice.id]
+        except KeyError:
+            pass
+        else:  # duplicated cell
             raise KeyError
 
         self._slices.append(slice)
@@ -70,3 +74,18 @@ class PizzaSlice(object):
         """
 
         return self._slices
+
+    def get_new_slice(self, pizza_cell: PizzaCell) -> Slice:
+        """Return new slice with this cell.
+
+        :param pizza_cell: add this cell into new slice
+        :type pizza_cell: PizzaCell
+        :return: last slice
+        :rtype: Slice
+        """
+
+        slice = Slice(pizza_cell)
+
+        self.__add__(slice)
+
+        return slice

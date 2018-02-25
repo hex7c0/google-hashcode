@@ -4,6 +4,7 @@
 import unittest
 
 from cell import Cell
+from pizza_cell import Ingredient, PizzaCell
 from pizza_slice import PizzaSlice
 from slice import Slice
 from test_cell import X0, X1, Y0, Y1
@@ -23,29 +24,37 @@ class PizzaSliceTestCase(unittest.TestCase):
 
         super(PizzaSliceTestCase, self).setUp()
 
+        pizza_cell = PizzaCell(Ingredient.MUSHROOM.value)
+
         self.cell0 = Cell(X0, Y0)
         self.cell1 = Cell(X1, Y1)
+
         self.slice0 = Slice()
-        self.slice0 += self.cell0
+        pizza_cell.cell = self.slice0
+        self.slice0 += pizza_cell
+
         self.slice1 = Slice()
-        self.slice1 += self.cell1
+        pizza_cell.cell = self.slice1
+        self.slice1 += pizza_cell
+        
         self.pizza_slice = PizzaSlice()
 
     def test_slice_key(self):
-        self.pizza_slice += self.slice0
+        pizza_cell = PizzaCell(Ingredient.MUSHROOM.value)
+
+        pizza_cell.cell = self.slice0
+        self.pizza_slice += pizza_cell
         self.assertEqual(0, self.pizza_slice[self.slice0.id])
         self.assertEqual(1, len(self.pizza_slice.slices))
 
-        self.pizza_slice += self.slice1
-        self.assertEqual(1, self.pizza_slice[self.slice1.id])
-        self.assertEqual(2, len(self.pizza_slice.slices))
+        pizza_cell.cell = self.slice1
+        with self.assertRaises(KeyError):
+            self.pizza_slice += pizza_cell
 
         with self.assertRaises(KeyError):
             if self.pizza_slice['foobar']:
                 pass
 
-        with self.assertRaises(KeyError):
-            self.pizza_slice += self.slice0
 
 
 if __name__ == '__main__':
