@@ -78,6 +78,9 @@ def read_input(file_name: str = '') -> Pizza:
                 number_of_tomatoes += 1 if pizza_cell.tomato else 0
             file_descriptor.read(1)
 
+        if cells[0][0] is None:
+            raise ValueError
+
         pizza = Pizza(cells)
         pizza.rows = rows
         pizza.columns = columns
@@ -90,4 +93,7 @@ def read_input(file_name: str = '') -> Pizza:
 
 
 if __name__ == '__main__':
-    read_input()
+    pizza = read_input()
+
+    pizza.map()
+    pizza.reduce()
