@@ -19,10 +19,10 @@ class PizzaCell(object):
     """Cell of Pizza.
 
     :type ingredient: Ingredient or None
-    :type top: Cell or None
-    :type bottom: Cell or None
-    :type right: Cell or None
-    :type left: Cell or None
+    :type top: PizzaCell or None
+    :type bottom: PizzaCell or None
+    :type right: PizzaCell or None
+    :type left: PizzaCell or None
     :type _cell: Cell or None
     :type _slice: Slice or None
     :type _has_mushroom: bool
@@ -124,7 +124,37 @@ class PizzaCell(object):
 
         return not self._has_mushroom
 
-    def neighbour(self, direction: str, next_pizza_cell) -> None:
+    @property
+    def x(self) -> int:
+        """Return X of this cell.
+
+        :return: x
+        :rtype: int
+        """
+
+        return self._cell.x
+
+    @property
+    def y(self) -> int:
+        """Return Y of this cell.
+
+        :return: y
+        :rtype: int
+        """
+
+        return self._cell.y
+
+    @property
+    def id(self) -> int:
+        """Return id of this cell.
+
+        :return: id
+        :rtype: int
+        """
+
+        return self._cell.id
+
+    def set_neighbour(self, direction: str, next_pizza_cell) -> None:
         """Look at next cell.
 
         :param direction: direction of the next cell
@@ -135,7 +165,15 @@ class PizzaCell(object):
         :rtype: None
         """
 
-        cell = Cell(next_pizza_cell.cell.x, next_pizza_cell.cell.y)
-        cell.is_equal = self.ingredient == next_pizza_cell.ingredient
+        setattr(self, direction, next_pizza_cell)
 
-        setattr(self, direction, cell)
+    def is_equal(self, cell) -> bool:
+        """Check if cell is equal.
+
+        :param cell: different PizzaCell
+        :type cell: PizzaCell
+        :return:
+        :rtype: bool
+        """
+
+        return self.ingredient == cell.ingredient
