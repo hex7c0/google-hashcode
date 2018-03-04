@@ -5,6 +5,8 @@ python:
 cache: pip
 install:
   -
+script:
+  - python3 -m unittest discover
 notifications:
   email:
     on_success: never
